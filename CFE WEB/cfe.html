@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101c19">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Một lá thư, một giai điệu, một khu rừng dành riêng cho bạn.">
+
+  <title>Forest Letter — Một món quà dành riêng cho bạn</title>
+
+  <!-- Font có hỗ trợ tiếng Việt -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+
+<body>
+  <!-- Nền rừng nhiều lớp -->
+  <div class="forest-background" aria-hidden="true">
+    <div class="forest-layer forest-layer-back"></div>
+    <div class="forest-layer forest-layer-middle"></div>
+    <div class="forest-layer forest-layer-front"></div>
+    <div class="mist mist-one"></div>
+    <div class="mist mist-two"></div>
+    <div class="forest-vignette"></div>
+    <canvas id="forest-canvas"></canvas>
+  </div>
+
+  <!-- Cổng chào -->
+  <section class="gate-screen" id="gate-screen" aria-labelledby="gate-title">
+    <div class="gate-ornament" aria-hidden="true">
+      <svg viewBox="0 0 220 300" fill="none">
+        <path d="M25 285V115C25 44 65 12 110 12S195 44 195 115V285"
+              stroke="currentColor" stroke-width="2"/>
+        <path d="M43 285V117C43 57 73 31 110 31S177 57 177 117V285"
+              stroke="currentColor" stroke-width="1" opacity=".55"/>
+        <path d="M25 145C58 130 63 99 62 77C88 92 97 114 90 137
+                 M195 145C162 130 157 99 158 77C132 92 123 114 130 137"
+              stroke="currentColor" stroke-width="1.5"/>
+        <path d="M110 54L118 72L138 75L123 89L127 109L110 99
+                 L93 109L97 89L82 75L102 72Z"
+              stroke="currentColor" stroke-width="1"/>
+        <circle cx="110" cy="82" r="3" fill="currentColor"/>
+        <path d="M25 285H195" stroke="currentColor" stroke-width="2"/>
+      </svg>
+    </div>
+
+    <div class="gate-content">
+      <span class="eyebrow">A LITTLE WORLD, JUST FOR YOU</span>
+      <h1 id="gate-title">Forest <em>Letter</em></h1>
+
+      <p class="gate-description">
+        Có những điều thật khó nói thành lời.
+        Hãy để khu rừng này thay bạn giữ lấy chúng.
+      </p>
+
+      <div class="gate-divider" aria-hidden="true">
+        <span></span><span class="divider-star">✧</span><span></span>
+      </div>
+
+      <button class="rune-button gate-button" id="enter-forest" type="button">
+        <span class="button-symbol" aria-hidden="true">✧</span>
+        <span>Chạm để bước vào khu rừng</span>
+        <span class="button-arrow" aria-hidden="true">↗</span>
+      </button>
+
+      <p class="gate-footnote">A LETTER WRITTEN UNDER THE STARS</p>
+    </div>
+
+    <div class="gate-bottom-ornament" aria-hidden="true">ᚷ · ᚨ · ᚾ · ᛞ</div>
+  </section>
+
+  <!-- Nội dung chính -->
+  <main class="site-main" id="site-main" hidden>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Forest Letter — đầu trang">
+        <span class="brand-mark" aria-hidden="true">✳</span>
+        <span>FOREST <em>LETTER</em></span>
+      </a>
+      <span class="header-caption">A GIFT FROM THE HEART</span>
+    </header>
+
+    <!-- Trường hợp không có mã NFC -->
+    <section class="intro-panel" id="intro-panel" hidden>
+      <span class="eyebrow">WELCOME, LITTLE WANDERER</span>
+      <h2>Một khu rừng<br><em>đang chờ bạn.</em></h2>
+
+      <p>
+        Mỗi chiếc lá cất giữ một câu chuyện.
+        Mỗi giai điệu gợi nhớ một người.
+        Hãy mở chiếc thẻ quà tặng của bạn để tìm thấy
+        điều đang được dành riêng cho mình.
+      </p>
+
+      <a class="rune-button" href="?k=demo">
+        <span>Khám phá bản xem thử</span>
+        <span aria-hidden="true">↗</span>
+      </a>
+
+      <p class="intro-hint">
+        Nếu bạn nhận được thẻ quà tặng, hãy quét lại thẻ NFC.
+      </p>
+    </section>
+
+    <!-- Trường hợp mã không tồn tại -->
+    <section class="status-panel" id="not-found-panel" hidden>
+      <span class="status-symbol" aria-hidden="true">✧</span>
+      <h2>Chưa tìm thấy <em>lá thư</em></h2>
+      <p>
+        Có vẻ con đường này chưa dẫn đến một bức thư.
+        Hãy kiểm tra lại thẻ quà tặng hoặc liên hệ người gửi.
+      </p>
+    </section>
+
+    <!-- Thông tin đơn hàng và thư -->
+    <div id="letter-experience" hidden>
+      <div class="welcome-line" id="top">
+        <span class="welcome-kicker">THE FOREST HAS A SECRET</span>
+        <h2>Một điều nhỏ bé,<br><em>được gửi riêng cho bạn.</em></h2>
+        <p class="welcome-description">
+          Hãy dành một chút thời gian. Không cần vội vàng.
+        </p>
+      </div>
+
+      <!-- PHẦN 1: LÁ THƯ -->
+      <section class="letter-section" id="letter">
+        <div class="section-heading">
+          <span class="section-index">I</span>
+          <div>
+            <span class="section-kicker">WORDS FROM THE HEART</span>
+            <h2>Lá thư <em>của riêng bạn</em></h2>
+          </div>
+        </div>
+
+        <div class="stone-scene">
+          <div class="stone-halo" aria-hidden="true"></div>
+
+          <!-- Dây leo trang trí bên trái -->
+          <svg class="vine vine-left" viewBox="0 0 100 320" fill="none" aria-hidden="true">
+            <path d="M10 320C40 260 12 215 44 165S65 70 35 10"
+                  stroke="#52745A" stroke-width="3"/>
+            <path d="M25 270C-5 250 0 230 15 223C36 226 36 248 25 270Z"
+                  fill="#607D55"/>
+            <path d="M39 190C66 180 76 158 60 147C43 154 36 171 39 190Z"
+                  fill="#365B48"/>
+            <path d="M44 130C15 126 5 105 19 94C38 101 47 115 44 130Z"
+                  fill="#52775A"/>
+            <path d="M39 72C64 62 69 40 54 32C38 40 33 57 39 72Z"
+                  fill="#6F8C5C"/>
+          </svg>
+
+          <!-- Dây leo trang trí bên phải -->
+          <svg class="vine vine-right" viewBox="0 0 100 320" fill="none" aria-hidden="true">
+            <path d="M90 320C60 260 88 215 56 165S35 70 65 10"
+                  stroke="#52745A" stroke-width="3"/>
+            <path d="M75 270C105 250 100 230 85 223C64 226 64 248 75 270Z"
+                  fill="#607D55"/>
+            <path d="M61 190C34 180 24 158 40 147C57 154 64 171 61 190Z"
+                  fill="#365B48"/>
+            <path d="M56 130C85 126 95 105 81 94C62 101 53 115 56 130Z"
+                  fill="#52775A"/>
+            <path d="M61 72C36 62 31 40 46 32C62 40 67 57 61 72Z"
+                  fill="#6F8C5C"/>
+          </svg>
+
+          <div class="mushroom mushroom-left" aria-hidden="true">
+            <span></span><i></i>
+          </div>
+          <div class="mushroom mushroom-right" aria-hidden="true">
+            <span></span><i></i>
+          </div>
+
+          <!-- Tờ giấy -->
+          <article class="letter-paper" aria-label="Nội dung lá thư">
+            <div class="paper-corner corner-top-left" aria-hidden="true">✧</div>
+            <div class="paper-corner corner-top-right" aria-hidden="true">✧</div>
+            <div class="paper-corner corner-bottom-left" aria-hidden="true">✧</div>
+            <div class="paper-corner corner-bottom-right" aria-hidden="true">✧</div>
+
+            <div class="paper-watermark" aria-hidden="true">ᚨ</div>
+
+            <div class="paper-content">
+              <div class="paper-topline">
+                <span class="paper-label">A LETTER FOR YOU</span>
+                <span class="paper-flower" aria-hidden="true">❋</span>
+              </div>
+
+              <div class="letter-recipient" id="letter-to"></div>
+              <div class="letter-body handwritten" id="letter-body"></div>
+
+              <div class="letter-signoff">
+                <span class="signoff-caption">With all my heart,</span>
+                <span class="letter-sender handwritten" id="letter-from"></span>
+                <span class="signoff-star" aria-hidden="true">✧</span>
+              </div>
+            </div>
+          </article>
+
+          <div class="stone-base" aria-hidden="true"></div>
+        </div>
+
+        <p class="letter-caption">
+          <span aria-hidden="true">✦</span>
+          Được viết bằng tất cả những điều chưa nói thành lời
+          <span aria-hidden="true">✦</span>
+        </p>
+      </section>
+
+      <!-- Dải dây leo ngăn cách hai phần -->
+      <div class="vine-divider" aria-hidden="true">
+        <svg viewBox="0 0 360 60" fill="none">
+          <path d="M0 30C60 30 70 9 110 30S180 51 220 30S300 9 360 30"
+                stroke="#64876B" stroke-width="1.5"/>
+          <path d="M64 23C46 6 35 13 39 25C49 33 57 30 64 23Z"
+                fill="#73926A"/>
+          <path d="M124 32C141 12 155 19 149 32C139 41 131 39 124 32Z"
+                fill="#52765B"/>
+          <path d="M226 29C210 9 196 16 202 29C212 38 219 36 226 29Z"
+                fill="#73926A"/>
+          <path d="M294 23C311 5 325 12 319 25C309 34 301 31 294 23Z"
+                fill="#52765B"/>
+          <path d="M180 15L185 25L197 30L185 35L180 45L175 35L163 30L175 25Z"
+                stroke="#C6B783" stroke-width="1"/>
+          <circle cx="180" cy="30" r="2" fill="#C6B783"/>
+        </svg>
+      </div>
+
+      <!-- PHẦN 2: GIAI ĐIỆU -->
+      <section class="playlist-section" id="melody">
+        <div class="section-heading">
+          <span class="section-index">II</span>
+          <div>
+            <span class="section-kicker">SOUNDS THAT FEEL LIKE YOU</span>
+            <h2>Giai điệu <em>của chúng ta</em></h2>
+          </div>
+        </div>
+
+        <p class="playlist-intro">
+          Có những cảm xúc không cần giải thích.
+          Chỉ cần một bài hát, là đủ để nhớ về nhau.
+        </p>
+
+        <!-- BỐ CỤC MỚI: ALBUM BÊN TRÁI, LỜI NHẮN BÊN PHẢI -->
+        <div class="playlist-layout">
+
+          <!-- Không đổi id này: app.js cần nó để hiển thị Spotify -->
+          <div class="playlist-grid" id="playlist-grid"></div>
+
+          <!-- Lời nhắn trang trí -->
+          <aside class="playlist-note">
+            <span class="section-kicker">A LITTLE NOTE FOR YOU</span>
+
+            <h3>Những giai điệu anh dành cho em</h3>
+
+            <div class="playlist-note-ornament" aria-hidden="true">
+              ✧ ───── ❦ ───── ✧
+            </div>
+
+            <p>
+              Có những điều thật khó để nói thành lời.
+              Vậy nên anh chọn những giai điệu này,
+              mong rằng mỗi lần em lắng nghe,
+              em sẽ cảm nhận được một chút dịu dàng
+              mà anh muốn gửi đến em.
+            </p>
+
+            <p>
+              Mong bài hát này sẽ trở thành một phần
+              nhỏ trong những ký ức đẹp của chúng ta.
+            </p>
+
+            <div class="playlist-note-signature">
+              With love, always.
+            </div>
+
+            <span class="playlist-note-star" aria-hidden="true">✦</span>
+          </aside>
+
+        </div>
+
+        <!-- Giữ nguyên trạng thái khi không có album -->
+        <div class="playlist-empty" id="playlist-empty" hidden>
+          <span aria-hidden="true">☾</span>
+          <p>Một khoảng lặng cũng có thể là một giai điệu.</p>
+        </div>
+
+        <p class="playlist-footnote">
+          <span aria-hidden="true">✧</span>
+          Nhấn phát và để khu rừng kể câu chuyện của bạn.
+        </p>
+      </section>
+
+      <!-- CHÂN TRANG -->
+      <footer class="site-footer">
+        <div class="footer-star" aria-hidden="true">✳</div>
+        <p class="footer-brand">FOREST <em>LETTER</em></p>
+        <p class="footer-message">Some feelings deserve their own little world.</p>
+        <p class="footer-code" id="footer-code"></p>
+      </footer>
+    </div>
+  </main>
+
+  <!-- Thanh điều hướng cố định -->
+  <nav class="floating-nav" id="floating-nav" aria-label="Điều hướng nội dung" hidden>
+    <a href="#letter" class="nav-item nav-active" data-nav="letter">
+      <span class="nav-dot" aria-hidden="true"></span>
+      <span>Lá thư</span>
+    </a>
+    <a href="#melody" class="nav-item" data-nav="melody">
+      <span class="nav-dot" aria-hidden="true"></span>
+      <span>Giai điệu</span>
+    </a>
+  </nav>
+
+  <!-- Điều khiển âm thanh -->
+  <button
+    class="sound-toggle"
+    id="sound-toggle"
+    type="button"
+    aria-label="Bật âm thanh khu rừng"
+    aria-pressed="false"
+    title="Bật hoặc tắt âm thanh">
+    <svg class="sound-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 10V14H8L13 18V6L8 10H4Z"
+            stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <path class="sound-wave" d="M16 9C18 11 18 13 16 15M18.5 6.5C22 10 22 14 18.5 17.5"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span class="sound-status" id="sound-status">Âm thanh: tắt</span>
+  </button>
+
+  <noscript>
+    <p class="noscript-message">
+      Forest Letter cần JavaScript để mở bức thư và phát giai điệu.
+      Hãy bật JavaScript trong trình duyệt để tiếp tục.
+    </p>
+  </noscript>
+</body>
+</html>
